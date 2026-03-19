@@ -1,7 +1,6 @@
 #ifndef ORDERBOOKSIDE_H
 #define ORDERBOOKSIDE_H
 
-#include <string>
 #include <map>
 #include <deque>
 #include "order.h"
