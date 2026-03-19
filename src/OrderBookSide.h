@@ -6,25 +6,64 @@
 #include <deque>
 #include "order.h"
 
-struct PriceComparator {
-    bool isBuySide;
-    bool operator()(double a, double b) const {
-        return isBuySide ? a > b : a < b;
+struct BuyComparator
+{
+    bool operator()(double a, double b) const
+    {
+        return a > b; // highest first
     }
 };
 
-class OrderBookSide {
+struct SellComparator
+{
+    bool operator()(double a, double b) const
+    {
+        return a < b; // lowest first
+    }
+};
+
+template <typename Comparator>
+class OrderBookSide
+{
 private:
-    bool isBuySide;
-    std::map<double, std::deque<Order>, PriceComparator> orders;
+    std::map<double, std::deque<Order>, Comparator> orders;
+
 public:
-    OrderBookSide(bool isBuySide) 
-        : isBuySide(isBuySide), orders(PriceComparator{isBuySide}) {}
-        
-    
-    void insertOrder(const Order& order);
-    Order getBestOrder() const;
-    void removeTopOrder();
+    OrderBookSide() : orders(Comparator{}) {};
+
+    void insertOrder(const Order &order)
+    {
+        orders[order.price].push_back(order);
+    }
+
+    const Order &getBestOrder() const
+    {
+        if (orders.empty())
+        {
+            throw std::runtime_error("OrderBook is empty");
+        }
+        return orders.begin()->second.front();
+    }
+
+    void removeTopOrder()
+    {
+        if (orders.empty())
+            return;
+
+        auto &bestLevelQueue = orders.begin()->second;
+
+        bestLevelQueue.pop_front();
+
+        if (bestLevelQueue.empty())
+        {
+            orders.erase(orders.begin());
+        }
+    }
+
+    bool isEmpty() const
+    {
+        return orders.empty();
+    }
 };
 
 #endif
