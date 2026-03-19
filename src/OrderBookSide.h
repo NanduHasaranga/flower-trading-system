@@ -59,6 +59,11 @@ public:
         }
     }
 
+    void updateTopOrderQuantity(int newQty)
+    {
+        orders.begin()->second.front().quantity = newQty;
+    }
+
     bool isEmpty() const
     {
         return orders.empty();
