@@ -11,7 +11,6 @@ struct Order
     Side side;
     double price;
     int quantity;
-    int priority;
 };
 
 #endif
