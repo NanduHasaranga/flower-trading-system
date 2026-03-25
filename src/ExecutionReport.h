@@ -39,7 +39,7 @@ struct ExecutionReport
         int quantity,
         const std::string &rejectReason) : clientOrderId(clientOrderId), orderId(orderId),
                                            instrument(instrument), side(side), price(price),
-                                           quantity(quantity), status(OrderStatus::Rejected),
+                                           quantity(quantity), status(OrderStatus::Reject),
                                            reason(rejectReason), transactionTime("")
     {
     }

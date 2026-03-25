@@ -8,7 +8,7 @@ enum class Side {
 
 enum class OrderStatus {
     New      = 0,
-    Rejected = 1,
+    Reject = 1,
     Fill     = 2,
     PFill    = 3
 };
